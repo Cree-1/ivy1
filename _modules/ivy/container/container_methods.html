@@ -884,7 +884,7 @@
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">mul</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">builtins</span> <span class="kn">import</span> <span class="nb">set</span>
 
 <span class="c1"># local</span>
@@ -2388,7 +2388,7 @@
 
 <span class="c1">#ivy.container.device</span>
 <span class="c1"># local</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="kn">import</span> <span class="nn">ivy</span>
 <span class="kn">from</span> <span class="nn">ivy.container.base</span> <span class="kn">import</span> <span class="n">ContainerBase</span>
@@ -2418,12 +2418,8 @@
 
 
 <div class="viewcode-block" id="static_to_device"><a class="viewcode-back" href="../../../functional/ivy/device/to_device/static_to_device_container.html#ivy.container.container_methods.static_to_device">[docs]</a><span class="k">def</span> <span class="nf">static_to_device</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">],</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span>
     <span class="n">device</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Device</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeDevice</span><span class="p">],</span>
-    <span class="n">key_chains</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">to_apply</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">prune_unapplied</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">map_sequences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">stream</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -2432,36 +2428,6 @@
 <span class="sd">    ivy.Container instance method variant of ivy.to_device. This method</span>
 <span class="sd">    simply wraps the function, and so the docstring for ivy.to_device also</span>
 <span class="sd">    applies to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    x</span>
-<span class="sd">       input array to be moved to the desired device</span>
-<span class="sd">    device</span>
-<span class="sd">        device to move the input array `x` to</span>
-<span class="sd">    key_chains</span>
-<span class="sd">        The key-chains to apply or not apply the method to. Default is None.</span>
-<span class="sd">    to_apply</span>
-<span class="sd">        If True, the method will be applied to key_chains, otherwise key_chains</span>
-<span class="sd">        will be skipped. Default is True.</span>
-<span class="sd">    prune_unapplied</span>
-<span class="sd">        Whether to prune key_chains for which the function was not applied.</span>
-<span class="sd">        Default is False.</span>
-<span class="sd">    map_sequences</span>
-<span class="sd">        Whether to also map method to sequences (lists, tuples). Default is False.</span>
-<span class="sd">    stream</span>
-<span class="sd">        stream object to use during copy. In addition to the types supported</span>
-<span class="sd">        in array.__dlpack__(), implementations may choose to support any</span>
-<span class="sd">        library-specific stream object with the caveat that any code using</span>
-<span class="sd">        such an object would not be portable.</span>
-<span class="sd">    out</span>
-<span class="sd">        optional output array, for writing the result to. It must have a</span>
-<span class="sd">        shape that the inputs broadcast to.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        input array x placed on the desired device</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
@@ -2470,10 +2436,6 @@
 <div class="viewcode-block" id="to_device"><a class="viewcode-back" href="../../../functional/ivy/device/to_device/to_device_container.html#ivy.container.container_methods.to_device">[docs]</a><span class="k">def</span> <span class="nf">to_device</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">:</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span>
     <span class="n">device</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Device</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeDevice</span><span class="p">],</span>
-    <span class="n">key_chains</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">to_apply</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">prune_unapplied</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">map_sequences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="o">*</span><span class="p">,</span>
     <span class="n">stream</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -2482,36 +2444,6 @@
 <span class="sd">    ivy.Container instance method variant of ivy.to_device. This method</span>
 <span class="sd">    simply wraps the function, and so the docstring for ivy.to_device also</span>
 <span class="sd">    applies to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    x</span>
-<span class="sd">       input array to be moved to the desired device</span>
-<span class="sd">    device</span>
-<span class="sd">        device to move the input array `x` to</span>
-<span class="sd">    key_chains</span>
-<span class="sd">        The key-chains to apply or not apply the method to. Default is None.</span>
-<span class="sd">    to_apply</span>
-<span class="sd">        If True, the method will be applied to key_chains, otherwise key_chains</span>
-<span class="sd">        will be skipped. Default is True.</span>
-<span class="sd">    prune_unapplied</span>
-<span class="sd">        Whether to prune key_chains for which the function was not applied.</span>
-<span class="sd">        Default is False.</span>
-<span class="sd">    map_sequences</span>
-<span class="sd">        Whether to also map method to sequences (lists, tuples). Default is False.</span>
-<span class="sd">    stream</span>
-<span class="sd">        stream object to use during copy. In addition to the types supported</span>
-<span class="sd">        in array.__dlpack__(), implementations may choose to support any</span>
-<span class="sd">        library-specific stream object with the caveat that any code using</span>
-<span class="sd">        such an object would not be portable.</span>
-<span class="sd">    out</span>
-<span class="sd">        optional output array, for writing the result to. It must have a</span>
-<span class="sd">        shape that the inputs broadcast to.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        input array x placed on the desired device</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
@@ -5940,7 +5872,6 @@
 <span class="sd">    out</span>
 <span class="sd">        optional output container, for writing the result to. It must have a shape</span>
 <span class="sd">        that the inputs broadcast to.</span>
-
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    ret</span>
@@ -5950,6 +5881,7 @@
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
+
 <span class="sd">    &gt;&gt;&gt; x = ivy.Container(a=ivy.array([0., 1., 2.]), b=ivy.array([3., 4., 5.1]))</span>
 <span class="sd">    &gt;&gt;&gt; y = ivy.Container.static_log1p(x)</span>
 <span class="sd">    &gt;&gt;&gt; print(y)</span>
@@ -8193,7 +8125,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    ret</span>
-<span class="sd">        a container containing the tangent of each element in ``self``.</span>
+<span class="sd">        an array containing the tangent of each element in ``self``.</span>
 <span class="sd">        The return must have a floating-point data type determined</span>
 <span class="sd">        by :ref:`type-promotion`.</span>
 
@@ -8246,7 +8178,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    ret</span>
-<span class="sd">        a container containing the hyperbolic tangent of each element in ``x``.</span>
+<span class="sd">        an container containing the hyperbolic tangent of each element in ``x``.</span>
 <span class="sd">        The returned array must have a real-valued floating-point data type</span>
 <span class="sd">        determined by :ref:`type-promotion`.</span>
 
@@ -8299,7 +8231,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    ret</span>
-<span class="sd">        a container containing the hyperbolic tangent of each element in</span>
+<span class="sd">        an container containing the hyperbolic tangent of each element in</span>
 <span class="sd">        ``self``. The returned container must have a real-valued floating-point</span>
 <span class="sd">        data type determined by :ref:`type-promotion`.</span>
 
@@ -8854,89 +8786,6 @@
 <span class="sd">        b: true</span>
 <span class="sd">    }</span>
 
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="static_unstack"><a class="viewcode-back" href="../../../functional/ivy/general/unstack/static_unstack_container.html#ivy.container.container_methods.static_unstack">[docs]</a><span class="k">def</span> <span class="nf">static_unstack</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">],</span>
-    <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">keepdims</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">key_chains</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">to_apply</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">prune_unapplied</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">map_sequences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container static method variant of ivy.unstack. This method</span>
-<span class="sd">    simply wraps the function, and so the docstring for ivy.unstack</span>
-<span class="sd">    also applies to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    x</span>
-<span class="sd">        Input array or container to unstack.</span>
-<span class="sd">    axis</span>
-<span class="sd">        Axis for which to unpack the array.</span>
-<span class="sd">    keepdims</span>
-<span class="sd">        Whether to keep dimension 1 in the unstack dimensions. Default is False.</span>
-<span class="sd">    key_chains</span>
-<span class="sd">        The key-chains to apply or not apply the method to. Default is None.</span>
-<span class="sd">    to_apply</span>
-<span class="sd">        If True, the method will be applied to key_chains, otherwise key_chains</span>
-<span class="sd">        will be skipped. Default is True.</span>
-<span class="sd">    prune_unapplied</span>
-<span class="sd">        Whether to prune key_chains for which the function was not applied.</span>
-<span class="sd">        Default is False.</span>
-<span class="sd">    map_sequences</span>
-<span class="sd">        Whether to also map method to sequences (lists, tuples). Default is False.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        List of arrays, unpacked along specified dimensions, or containers</span>
-<span class="sd">        with arrays unpacked at leaves</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="unstack"><a class="viewcode-back" href="../../../functional/ivy/general/unstack/unstack_container.html#ivy.container.container_methods.unstack">[docs]</a><span class="k">def</span> <span class="nf">unstack</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">:</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span>
-    <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">keepdims</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">key_chains</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">to_apply</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">prune_unapplied</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">map_sequences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container instance method variant of ivy.unstack. This method</span>
-<span class="sd">    simply wraps the function, and so the docstring for ivy.unstack</span>
-<span class="sd">    also applies to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    self</span>
-<span class="sd">        Input container to unstack at leaves.</span>
-<span class="sd">    axis</span>
-<span class="sd">        Axis for which to unpack the array.</span>
-<span class="sd">    keepdims</span>
-<span class="sd">        Whether to keep dimension 1 in the unstack dimensions. Default is False.</span>
-<span class="sd">    key_chains</span>
-<span class="sd">        The key-chains to apply or not apply the method to. Default is None.</span>
-<span class="sd">    to_apply</span>
-<span class="sd">        If True, the method will be applied to key_chains, otherwise key_chains</span>
-<span class="sd">        will be skipped. Default is True.</span>
-<span class="sd">    prune_unapplied</span>
-<span class="sd">        Whether to prune key_chains for which the function was not applied.</span>
-<span class="sd">        Default is False.</span>
-<span class="sd">    map_sequences</span>
-<span class="sd">        Whether to also map method to sequences (lists, tuples). Default is False.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        Containers with arrays unpacked at leaves</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
@@ -10501,94 +10350,6 @@
     <span class="n">prune_unapplied</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">map_sequences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="static_stop_gradient"><a class="viewcode-back" href="../../../functional/ivy/gradients/stop_gradient/static_stop_gradient_container.html#ivy.container.container_methods.static_stop_gradient">[docs]</a><span class="k">def</span> <span class="nf">static_stop_gradient</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">],</span>
-    <span class="n">preserve_type</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">key_chains</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">to_apply</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">prune_unapplied</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">map_sequences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container static method variant of ivy.stop_gradient. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.stop_gradient also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    x</span>
-<span class="sd">        Array or Container for which to stop the gradient.</span>
-<span class="sd">    preserve_type</span>
-<span class="sd">        Whether to preserve the input type (ivy.Variable or ivy.Array),</span>
-<span class="sd">        otherwise an array is always returned. Default is True.</span>
-<span class="sd">    key_chains</span>
-<span class="sd">        The key-chains to apply or not apply the method to. Default is None.</span>
-<span class="sd">    to_apply</span>
-<span class="sd">        If True, the method will be applied to key_chains, otherwise key_chains</span>
-<span class="sd">        will be skipped. Default is True.</span>
-<span class="sd">    prune_unapplied</span>
-<span class="sd">        Whether to prune key_chains for which the function was not applied.</span>
-<span class="sd">        Default is False.</span>
-<span class="sd">    map_sequences</span>
-<span class="sd">        Whether to also map method to sequences (lists, tuples). Default is False.</span>
-<span class="sd">    out</span>
-<span class="sd">        optional output array, for writing the result to. It must have a shape</span>
-<span class="sd">        that the inputs broadcast to.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        The same array x, but with no gradient information.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="stop_gradient"><a class="viewcode-back" href="../../../functional/ivy/gradients/stop_gradient/stop_gradient_container.html#ivy.container.container_methods.stop_gradient">[docs]</a><span class="k">def</span> <span class="nf">stop_gradient</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">:</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span>
-    <span class="n">preserve_type</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">key_chains</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">to_apply</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">prune_unapplied</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">map_sequences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container instance method variant of ivy.stop_gradient. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.stop_gradient also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    self</span>
-<span class="sd">        Container for which to stop the gradient.</span>
-<span class="sd">    preserve_type</span>
-<span class="sd">        Whether to preserve the input type (ivy.Variable or ivy.Array),</span>
-<span class="sd">        otherwise an array is always returned. Default is True.</span>
-<span class="sd">    key_chains</span>
-<span class="sd">        The key-chains to apply or not apply the method to. Default is None.</span>
-<span class="sd">    to_apply</span>
-<span class="sd">        If True, the method will be applied to key_chains, otherwise key_chains</span>
-<span class="sd">        will be skipped. Default is True.</span>
-<span class="sd">    prune_unapplied</span>
-<span class="sd">        Whether to prune key_chains for which the function was not applied.</span>
-<span class="sd">        Default is False.</span>
-<span class="sd">    map_sequences</span>
-<span class="sd">        Whether to also map method to sequences (lists, tuples). Default is False.</span>
-<span class="sd">    out</span>
-<span class="sd">        optional output array, for writing the result to. It must have a shape</span>
-<span class="sd">        that the inputs broadcast to.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        The same array x, but with no gradient information.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
 
@@ -12325,117 +12086,6 @@
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="static_split"><a class="viewcode-back" href="../../../functional/ivy/manipulation/split/static_split_container.html#ivy.container.container_methods.static_split">[docs]</a><span class="k">def</span> <span class="nf">static_split</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">],</span>
-    <span class="n">num_or_size_splits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">with_remainder</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">key_chains</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">to_apply</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">prune_unapplied</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">map_sequences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container static method variant of ivy.split. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.split also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    x</span>
-<span class="sd">        array to be divided into sub-arrays.</span>
-<span class="sd">    num_or_size_splits</span>
-<span class="sd">        Number of equal arrays to divide the array into along the given axis if an</span>
-<span class="sd">        integer. The size of each split element if a sequence of integers. Default</span>
-<span class="sd">        is to divide into as many 1-dimensional arrays as the axis dimension.</span>
-<span class="sd">    axis</span>
-<span class="sd">        The axis along which to split, default is 0.</span>
-<span class="sd">    with_remainder</span>
-<span class="sd">        If the tensor does not split evenly, then store the last remainder entry.</span>
-<span class="sd">        Default is False.</span>
-<span class="sd">    key_chains</span>
-<span class="sd">        The key-chains to apply or not apply the method to. Default is None.</span>
-<span class="sd">    to_apply</span>
-<span class="sd">        If True, the method will be applied to key_chains, otherwise key_chains will</span>
-<span class="sd">        be skipped. Default is True.</span>
-<span class="sd">    prune_unapplied</span>
-<span class="sd">        Whether to prune key_chains for which the function was not applied. Default</span>
-<span class="sd">        is False.</span>
-<span class="sd">    map_sequences</span>
-<span class="sd">        Whether to also map method to sequences (lists, tuples). Default is False.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">        A container with list of sub-arrays.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">ContainerBase</span><span class="o">.</span><span class="n">multi_map_in_static_method</span><span class="p">(</span>
-        <span class="s2">&quot;split&quot;</span><span class="p">,</span>
-        <span class="n">x</span><span class="p">,</span>
-        <span class="n">num_or_size_splits</span><span class="p">,</span>
-        <span class="n">axis</span><span class="p">,</span>
-        <span class="n">with_remainder</span><span class="p">,</span>
-        <span class="n">key_chains</span><span class="o">=</span><span class="n">key_chains</span><span class="p">,</span>
-        <span class="n">to_apply</span><span class="o">=</span><span class="n">to_apply</span><span class="p">,</span>
-        <span class="n">prune_unapplied</span><span class="o">=</span><span class="n">prune_unapplied</span><span class="p">,</span>
-        <span class="n">map_sequences</span><span class="o">=</span><span class="n">map_sequences</span><span class="p">,</span>
-    <span class="p">)</span></div>
-
-<div class="viewcode-block" id="split"><a class="viewcode-back" href="../../../functional/ivy/manipulation/split/split_container.html#ivy.container.container_methods.split">[docs]</a><span class="k">def</span> <span class="nf">split</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">:</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span>
-    <span class="n">num_or_size_splits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="n">with_remainder</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">key_chains</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">to_apply</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="n">prune_unapplied</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">map_sequences</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container instance method variant of ivy.split. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.split also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    self</span>
-<span class="sd">        array to be divided into sub-arrays.</span>
-<span class="sd">    num_or_size_splits</span>
-<span class="sd">        Number of equal arrays to divide the array into along the given axis if an</span>
-<span class="sd">        integer. The size of each split element if a sequence of integers. Default</span>
-<span class="sd">        is to divide into as many 1-dimensional arrays as the axis dimension.</span>
-<span class="sd">    axis</span>
-<span class="sd">        The axis along which to split, default is 0.</span>
-<span class="sd">    with_remainder</span>
-<span class="sd">        If the tensor does not split evenly, then store the last remainder entry.</span>
-<span class="sd">        Default is False.</span>
-<span class="sd">    key_chains</span>
-<span class="sd">        The key-chains to apply or not apply the method to. Default is None.</span>
-<span class="sd">    to_apply</span>
-<span class="sd">        If True, the method will be applied to key_chains, otherwise key_chains will</span>
-<span class="sd">        be skipped. Default is True.</span>
-<span class="sd">    prune_unapplied</span>
-<span class="sd">        Whether to prune key_chains for which the function was not applied. Default</span>
-<span class="sd">        is False.</span>
-<span class="sd">    map_sequences</span>
-<span class="sd">        Whether to also map method to sequences (lists, tuples). Default is False.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">        A container with list of sub-arrays.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">static_split</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">num_or_size_splits</span><span class="p">,</span>
-        <span class="n">axis</span><span class="p">,</span>
-        <span class="n">with_remainder</span><span class="p">,</span>
-        <span class="n">key_chains</span><span class="p">,</span>
-        <span class="n">to_apply</span><span class="p">,</span>
-        <span class="n">prune_unapplied</span><span class="p">,</span>
-        <span class="n">map_sequences</span><span class="p">,</span>
-    <span class="p">)</span></div>
-
 <div class="viewcode-block" id="permute_dims"><a class="viewcode-back" href="../../../functional/ivy/manipulation/permute_dims/permute_dims_container.html#ivy.container.container_methods.permute_dims">[docs]</a><span class="k">def</span> <span class="nf">permute_dims</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">:</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span>
     <span class="n">axes</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
@@ -12484,8 +12134,8 @@
 <span class="sd">        input container.</span>
 
 <span class="sd">    shape</span>
-<span class="sd">        The new shape should be compatible with the original shape.</span>
-<span class="sd">        One shape dimension can be -1. In this case, the value is</span>
+<span class="sd">        The new shape should be compatible with the original shape. </span>
+<span class="sd">        One shape dimension can be -1. In this case, the value is </span>
 <span class="sd">        inferred from the length of the array and remaining dimensions.</span>
 <span class="sd">    copy</span>
 <span class="sd">        boolean indicating whether or not to copy the input array.</span>
@@ -12511,7 +12161,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    ret</span>
-<span class="sd">        optional output container, for writing the result to. It must have a shape</span>
+<span class="sd">        optional output container, for writing the result to. It must have a shape </span>
 <span class="sd">        that the inputs broadcast to.</span>
 
 <span class="sd">    Examples</span>
@@ -14080,275 +13730,6 @@
     <span class="k">pass</span></div>
 
 
-<span class="c1">#ivy.container.searching</span>
-<span class="c1"># global</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
-
-<span class="c1"># local</span>
-<span class="kn">import</span> <span class="nn">ivy</span>
-<span class="kn">from</span> <span class="nn">ivy.container.base</span> <span class="kn">import</span> <span class="n">ContainerBase</span>
-
-
-<span class="c1"># noinspection PyMissingConstructor</span>
-<div class="viewcode-block" id="static_argmax"><a class="viewcode-back" href="../../../functional/ivy/searching/argmax/static_argmax_container.html#ivy.container.container_methods.static_argmax">[docs]</a><span class="k">def</span> <span class="nf">static_argmax</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">],</span>
-    <span class="n">axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">keepdims</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container static method variant of ivy.argmax. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.argmax also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    x</span>
-<span class="sd">        input array or container. Should have a numeric data type.</span>
-<span class="sd">    axis</span>
-<span class="sd">        axis along which to search. If None, the function must return the index of</span>
-<span class="sd">        the maximum value of the flattened array. Default  None.</span>
-<span class="sd">    keepdims</span>
-<span class="sd">        If this is set to True, the axes which are reduced are left in the result as</span>
-<span class="sd">        dimensions with size one. With this option, the result will broadcast</span>
-<span class="sd">        correctly against the array.</span>
-<span class="sd">    out</span>
-<span class="sd">        If provided, the result will be inserted into this array. It should be of</span>
-<span class="sd">        the appropriate shape and dtype.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        a container containing the indices of the maximum values across the</span>
-<span class="sd">        specified axis.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="argmax"><a class="viewcode-back" href="../../../functional/ivy/searching/argmax/argmax_container.html#ivy.container.container_methods.argmax">[docs]</a><span class="k">def</span> <span class="nf">argmax</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">:</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span>
-    <span class="n">axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">keepdims</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container instance method variant of ivy.argmax. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.argmax also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    self</span>
-<span class="sd">        input array or container. Should have a numeric data type.</span>
-<span class="sd">    axis</span>
-<span class="sd">        axis along which to search. If None, the function must return the index of</span>
-<span class="sd">        the maximum value of the flattened array. Default  None.</span>
-<span class="sd">    keepdims</span>
-<span class="sd">        If this is set to True, the axes which are reduced are left in the result as</span>
-<span class="sd">        dimensions with size one. With this option, the result will broadcast</span>
-<span class="sd">        correctly against the array.</span>
-<span class="sd">    out</span>
-<span class="sd">        If provided, the result will be inserted into this array. It should be of</span>
-<span class="sd">        the appropriate shape and dtype.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        a container containing the indices of the maximum values across the</span>
-<span class="sd">        specified axis.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="static_argmin"><a class="viewcode-back" href="../../../functional/ivy/searching/argmin/static_argmin_container.html#ivy.container.container_methods.static_argmin">[docs]</a><span class="k">def</span> <span class="nf">static_argmin</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">],</span>
-    <span class="n">axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">keepdims</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container static method variant of ivy.argmin. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.argmin also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    x</span>
-<span class="sd">        input array or container. Should have a numeric data type.</span>
-<span class="sd">    axis</span>
-<span class="sd">        axis along which to search. If None, the function must return the index of</span>
-<span class="sd">        the minimum value of the flattened array. Default = None.</span>
-<span class="sd">    keepdims</span>
-<span class="sd">        if True, the reduced axes (dimensions) must be included in the result as</span>
-<span class="sd">        singleton dimensions, and, accordingly, the result must be compatible with</span>
-<span class="sd">        the input array (see Broadcasting). Otherwise, if False, the reduced axes</span>
-<span class="sd">        (dimensions) must not be included in the result. Default = False.</span>
-<span class="sd">    out</span>
-<span class="sd">        optional output container, for writing the result to. It must have a shape</span>
-<span class="sd">        that the inputs broadcast to.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        a container containing the indices of the minimum values across the</span>
-<span class="sd">        specified axis.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="argmin"><a class="viewcode-back" href="../../../functional/ivy/searching/argmin/argmin_container.html#ivy.container.container_methods.argmin">[docs]</a><span class="k">def</span> <span class="nf">argmin</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">:</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span>
-    <span class="n">axis</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">keepdims</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container instance method variant of ivy.argmin. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.argmin also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    self</span>
-<span class="sd">        input array or container. Should have a numeric data type.</span>
-<span class="sd">    axis</span>
-<span class="sd">        axis along which to search. If None, the function must return the index of</span>
-<span class="sd">        the minimum value of the flattened array. Default = None.</span>
-<span class="sd">    keepdims</span>
-<span class="sd">        if True, the reduced axes (dimensions) must be included in the result as</span>
-<span class="sd">        singleton dimensions, and, accordingly, the result must be compatible with</span>
-<span class="sd">        the input array (see Broadcasting). Otherwise, if False, the reduced axes</span>
-<span class="sd">        (dimensions) must not be included in the result. Default = False.</span>
-<span class="sd">    out</span>
-<span class="sd">        optional output container, for writing the result to. It must have a shape</span>
-<span class="sd">        that the inputs broadcast to.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        a container containing the indices of the minimum values across the</span>
-<span class="sd">        specified axis.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="static_nonzero"><a class="viewcode-back" href="../../../functional/ivy/searching/nonzero/static_nonzero_container.html#ivy.container.container_methods.static_nonzero">[docs]</a><span class="k">def</span> <span class="nf">static_nonzero</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">]</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container static method variant of ivy.nonzero. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.nonzero also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    x</span>
-<span class="sd">        input array or container. Should have a numeric data type.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        a container containing the indices of the nonzero values.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="nonzero"><a class="viewcode-back" href="../../../functional/ivy/searching/nonzero/nonzero_container.html#ivy.container.container_methods.nonzero">[docs]</a><span class="k">def</span> <span class="nf">nonzero</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container instance method variant of ivy.nonzero. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.nonzero also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    self</span>
-<span class="sd">        input array or container. Should have a numeric data type.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        a container containing the indices of the nonzero values.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="static_where"><a class="viewcode-back" href="../../../functional/ivy/searching/where/static_where_container.html#ivy.container.container_methods.static_where">[docs]</a><span class="k">def</span> <span class="nf">static_where</span><span class="p">(</span>
-    <span class="n">condition</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">],</span>
-    <span class="n">x1</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">],</span>
-    <span class="n">x2</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">],</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container static method variant of ivy.where. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.where also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    condition</span>
-<span class="sd">        input array or container. Should have a boolean data type.</span>
-<span class="sd">    x1</span>
-<span class="sd">        input array or container. Should have a numeric data type.</span>
-<span class="sd">    x2</span>
-<span class="sd">        input array or container. Should have a numeric data type.</span>
-<span class="sd">    out</span>
-<span class="sd">        optional output container, for writing the result to. It must have a shape</span>
-<span class="sd">        that the inputs broadcast to.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        a container containing the values of x1 where condition is True, and x2</span>
-<span class="sd">        where condition is False.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
-<div class="viewcode-block" id="where"><a class="viewcode-back" href="../../../functional/ivy/searching/where/where_container.html#ivy.container.container_methods.where">[docs]</a><span class="k">def</span> <span class="nf">where</span><span class="p">(</span>
-    <span class="bp">self</span><span class="p">:</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span>
-    <span class="n">x1</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">],</span>
-    <span class="n">x2</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">],</span>
-    <span class="o">*</span><span class="p">,</span>
-    <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container instance method variant of ivy.where. This method simply</span>
-<span class="sd">    wraps the function, and so the docstring for ivy.where also applies</span>
-<span class="sd">    to this method with minimal changes.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    self</span>
-<span class="sd">        input array or container. Should have a boolean data type.</span>
-<span class="sd">    x1</span>
-<span class="sd">        input array or container. Should have a numeric data type.</span>
-<span class="sd">    x2</span>
-<span class="sd">        input array or container. Should have a numeric data type.</span>
-<span class="sd">    out</span>
-<span class="sd">        optional output container, for writing the result to. It must have a shape</span>
-<span class="sd">        that the inputs broadcast to.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    ret</span>
-<span class="sd">        a container containing the values of x1 where condition is True, and x2</span>
-<span class="sd">        where condition is False.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span></div>
-
-
 <span class="c1">#ivy.container.set</span>
 <span class="c1"># global</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
@@ -14749,39 +14130,39 @@
     <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container instance method variant of ivy.var.</span>
-<span class="sd">    This method simply wraps the function, and so the</span>
-<span class="sd">    docstring for ivy.var also applies to this method</span>
+<span class="sd">    ivy.Container instance method variant of ivy.var. </span>
+<span class="sd">    This method simply wraps the function, and so the </span>
+<span class="sd">    docstring for ivy.var also applies to this method </span>
 <span class="sd">    with minimal changes.</span>
-
+<span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    self</span>
 <span class="sd">        input array. Should have a floating-point data type.</span>
 <span class="sd">    key_chains</span>
-<span class="sd">        The key-chains to apply or not apply the method to.</span>
+<span class="sd">        The key-chains to apply or not apply the method to. </span>
 <span class="sd">        Default is None.</span>
 <span class="sd">    to_apply</span>
-<span class="sd">        If True, the method will be applied to key_chains,</span>
+<span class="sd">        If True, the method will be applied to key_chains, </span>
 <span class="sd">        otherwise key_chains will be skipped. Default is True.</span>
 <span class="sd">    prune_unapplied</span>
-<span class="sd">        Whether to prune key_chains for which the function was not</span>
+<span class="sd">        Whether to prune key_chains for which the function was not </span>
 <span class="sd">        applied. Default is False.</span>
 <span class="sd">    map_sequences</span>
-<span class="sd">        Whether to also map method to sequences (lists, tuples).</span>
+<span class="sd">        Whether to also map method to sequences (lists, tuples). </span>
 <span class="sd">        Default is False.</span>
 <span class="sd">    out</span>
-<span class="sd">        optional output, for writing the result to. It must have a</span>
+<span class="sd">        optional output, for writing the result to. It must have a </span>
 <span class="sd">        shape that the inputs broadcast to.</span>
-
+<span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    ret</span>
-<span class="sd">       if the variance was computed over the entire array, a</span>
-<span class="sd">       zero-dimensional arraycontaining the variance; otherwise,</span>
-<span class="sd">       a non-zero-dimensional array containing the variances.</span>
+<span class="sd">       if the variance was computed over the entire array, a </span>
+<span class="sd">       zero-dimensional arraycontaining the variance; otherwise, </span>
+<span class="sd">       a non-zero-dimensional array containing the variances. </span>
 <span class="sd">       The returned array must have the same data type as x.</span>
-
+<span class="sd">   </span>
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; x = ivy.Container(a=ivy.array([0.1, 0.2, 0.9]), \</span>
@@ -14808,9 +14189,9 @@
     <span class="o">*</span><span class="p">,</span>
     <span class="n">out</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    ivy.Container static method variant of ivy.var.</span>
-<span class="sd">    This method simply wraps the function, and so</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    ivy.Container static method variant of ivy.var. </span>
+<span class="sd">    This method simply wraps the function, and so </span>
 <span class="sd">    the docstring for ivy.var also applies to this method</span>
 <span class="sd">    with minimal changes.</span>
 
@@ -14819,30 +14200,30 @@
 <span class="sd">    self</span>
 <span class="sd">        input array. Should have a floating-point data type.</span>
 <span class="sd">    key_chains</span>
-<span class="sd">        The key-chains to apply or not apply the method to.</span>
+<span class="sd">        The key-chains to apply or not apply the method to. </span>
 <span class="sd">        Default is None.</span>
 <span class="sd">    to_apply</span>
 <span class="sd">        If True, the method will be applied to key_chains,</span>
 <span class="sd">        otherwise key_chains will be skipped. Default is True.</span>
 <span class="sd">    prune_unapplied</span>
-<span class="sd">        Whether to prune key_chains for which the function was</span>
+<span class="sd">        Whether to prune key_chains for which the function was </span>
 <span class="sd">        not applied. Default is False.</span>
 <span class="sd">    map_sequences</span>
-<span class="sd">        Whether to also map method to sequences (lists, tuples).</span>
+<span class="sd">        Whether to also map method to sequences (lists, tuples). </span>
 <span class="sd">        Default is False.</span>
 <span class="sd">    out</span>
-<span class="sd">        optional output, for writing the result to.</span>
+<span class="sd">        optional output, for writing the result to. </span>
 <span class="sd">        It must have a shape that the inputs broadcast to.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    ret</span>
-<span class="sd">       if the variance was computed over the entire array,</span>
-<span class="sd">       a zero-dimensional array containing the variance;</span>
-<span class="sd">       otherwise, a non-zero-dimensional array containing the</span>
-<span class="sd">       variances. The returned array must have the same data</span>
+<span class="sd">       if the variance was computed over the entire array, </span>
+<span class="sd">       a zero-dimensional array containing the variance; </span>
+<span class="sd">       otherwise, a non-zero-dimensional array containing the </span>
+<span class="sd">       variances. The returned array must have the same data </span>
 <span class="sd">       type as x.</span>
-
+<span class="sd">   </span>
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
 <span class="sd">    &gt;&gt;&gt; x = ivy.Container(a=ivy.array([0.1, 0.2, 0.9]), \</span>
