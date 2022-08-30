@@ -17009,7 +17009,6 @@
 <span class="kn">import</span> <span class="nn">ivy</span>
 
 
-<span class="c1"># noinspection PyMissingConstructor</span>
 <div class="viewcode-block" id="static_unique_all"><a class="viewcode-back" href="../../../functional/ivy/set/unique_all/static_unique_all_container.html#ivy.container.container_methods.static_unique_all">[docs]</a><span class="k">def</span> <span class="nf">static_unique_all</span><span class="p">(</span>
     <span class="n">x</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">ivy</span><span class="o">.</span><span class="n">Array</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">NativeArray</span><span class="p">,</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">],</span>
     <span class="o">/</span><span class="p">,</span>
@@ -17231,12 +17230,12 @@
 <span class="sd">          reconstruct ``x``. The array must have the same shape as ``x`` and</span>
 <span class="sd">          must have the default array index data type.</span>
 
-<span class="sd">         Examples</span>
-<span class="sd">         --------</span>
-<span class="sd">         &gt;&gt;&gt; x = ivy.Container(a=ivy.array([4.,8.,3.,5.,9.,4.]),\</span>
-<span class="sd">         b=ivy.array([7,6,4,5,6,3,2]))</span>
-<span class="sd">         &gt;&gt;&gt; y = x.unique_inverse()</span>
-<span class="sd">         &gt;&gt;&gt; print(y)</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; x = ivy.Container(a=ivy.array([4.,8.,3.,5.,9.,4.]),\</span>
+<span class="sd">    ... b=ivy.array([7,6,4,5,6,3,2]))</span>
+<span class="sd">    &gt;&gt;&gt; y = x.unique_inverse()</span>
+<span class="sd">    &gt;&gt;&gt; print(y)</span>
 <span class="sd">         {</span>
 <span class="sd">           a: (list[2], &lt;class ivy.array.array.Array&gt; shape=[5]),</span>
 <span class="sd">           b: (list[2], &lt;class ivy.array.array.Array&gt; shape=[6])</span>
