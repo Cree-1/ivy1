@@ -9978,7 +9978,7 @@
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.Container(a=ivy.array([0., 1., 2.]), \</span>
 <span class="sd">                          b=ivy.array([3., 4., 5.]))</span>
-<span class="sd">    &gt;&gt;&gt; y = x.clip_vector_norm(2.0, 1.0)</span>
+<span class="sd">    &gt;&gt;&gt; y = x.clip_vector_norm(2.0, p=1.0)</span>
 <span class="sd">    &gt;&gt;&gt; print(y)</span>
 <span class="sd">    {</span>
 <span class="sd">        a: ivy.array([0., 0.667, 1.33]),</span>
@@ -11892,7 +11892,7 @@
 <span class="sd">        c: -1</span>
 <span class="sd">    }</span>
 
-<span class="sd">    </span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
@@ -12455,7 +12455,7 @@
 
 <span class="sd">    &gt;&gt;&gt; x = ivy.Container(a=ivy.array([[0., 1., 2.]]), \</span>
 <span class="sd">                          b=ivy.array([[3., 4., 5.]]))</span>
-<span class="sd">    &gt;&gt;&gt; y = x.clip_matrix_norm(2.0, 1.0)</span>
+<span class="sd">    &gt;&gt;&gt; y = x.clip_matrix_norm(2.0, p=1.0)</span>
 <span class="sd">    &gt;&gt;&gt; print(y)</span>
 <span class="sd">    {</span>
 <span class="sd">        a: ivy.array([[0., 1., 2.]]),</span>
@@ -15233,7 +15233,7 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ivy.Container static method variant of ivy.trace.</span>
-<span class="sd">    This method Returns the sum along the specified diagonals of a matrix (or a </span>
+<span class="sd">    This method Returns the sum along the specified diagonals of a matrix (or a</span>
 <span class="sd">    stack of matrices).</span>
 
 <span class="sd">    Parameters</span>
@@ -15242,7 +15242,7 @@
 <span class="sd">        input container having shape ``(..., M, N)`` and whose innermost two</span>
 <span class="sd">        dimensions form ``MxN`` matrices. Should have a floating-point data type.</span>
 <span class="sd">    offset</span>
-<span class="sd">        Offset of the diagonal from the main diagonal. Can be both positive and </span>
+<span class="sd">        Offset of the diagonal from the main diagonal. Can be both positive and</span>
 <span class="sd">        negative. Defaults to 0.</span>
 <span class="sd">    key_chains</span>
 <span class="sd">        The key-chains to apply or not apply the method to. Default is None.</span>
@@ -15261,9 +15261,9 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    ret</span>
-<span class="sd">        a container containing the traces and whose shape is determined by removing </span>
-<span class="sd">        the last two dimensions and storing the traces in the last array dimension. </span>
-<span class="sd">        For example, if ``x`` has rank ``k`` and shape ``(I, J, K, ..., L, M, N)``, </span>
+<span class="sd">        a container containing the traces and whose shape is determined by removing</span>
+<span class="sd">        the last two dimensions and storing the traces in the last array dimension.</span>
+<span class="sd">        For example, if ``x`` has rank ``k`` and shape ``(I, J, K, ..., L, M, N)``,</span>
 <span class="sd">        then an output array has rank ``k-2`` and shape ``(I, J, K, ..., L)`` where</span>
 
 <span class="sd">        ::</span>
@@ -15305,7 +15305,7 @@
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ivy</span><span class="o">.</span><span class="n">Container</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ivy.Container instance method variant of ivy.trace.</span>
-<span class="sd">    This method Returns the sum along the specified diagonals of a matrix (or a </span>
+<span class="sd">    This method Returns the sum along the specified diagonals of a matrix (or a</span>
 <span class="sd">    stack of matrices).</span>
 
 <span class="sd">    Parameters</span>
@@ -15314,7 +15314,7 @@
 <span class="sd">        input container having shape ``(..., M, N)`` and whose innermost two</span>
 <span class="sd">        dimensions form ``MxN`` matrices. Should have a floating-point data type.</span>
 <span class="sd">    offset</span>
-<span class="sd">        Offset of the diagonal from the main diagonal. Can be both positive and </span>
+<span class="sd">        Offset of the diagonal from the main diagonal. Can be both positive and</span>
 <span class="sd">        negative. Defaults to 0.</span>
 <span class="sd">    key_chains</span>
 <span class="sd">        The key-chains to apply or not apply the method to. Default is None.</span>
@@ -15333,9 +15333,9 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    ret</span>
-<span class="sd">        a container containing the traces and whose shape is determined by removing </span>
-<span class="sd">        the last two dimensions and storing the traces in the last array dimension. </span>
-<span class="sd">        For example, if ``x`` has rank ``k`` and shape ``(I, J, K, ..., L, M, N)``, </span>
+<span class="sd">        a container containing the traces and whose shape is determined by removing</span>
+<span class="sd">        the last two dimensions and storing the traces in the last array dimension.</span>
+<span class="sd">        For example, if ``x`` has rank ``k`` and shape ``(I, J, K, ..., L, M, N)``,</span>
 <span class="sd">        then an output array has rank ``k-2`` and shape ``(I, J, K, ..., L)`` where</span>
 
 <span class="sd">        ::</span>
