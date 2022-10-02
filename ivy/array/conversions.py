@@ -13,8 +13,8 @@ import ivy
 # --------#
 
 
-def _to_native(x: Any,inplace=False) -> Any:
-    if isinstance(x, ivy.Array):
+def _to_native(x: Any, inplace=False) -> Any:
+    if isinstance(x, ivy.Array) and hasattr(x, "_data"):
         return _to_native(x.data)
     elif isinstance(x, ivy.Container):
         return x.map(lambda x_, _: _to_native(x_,inplace=inplace),inplace=inplace)

@@ -2133,4 +2133,5 @@ def promote_types_of_inputs(
     else:
         x1 = ivy.asarray(x1, dtype=x2.dtype)
         x2 = ivy.asarray(x2)
-    return ivy.to_native(x1), ivy.to_native(x2)
+    return x1.data if ivy.is_ivy_array(x1) else x1,\
+           x2.data if ivy.is_ivy_array(x2) else x2
